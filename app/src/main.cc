@@ -5,13 +5,12 @@
 
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/sensor.h>
-#include <zephyr/logging/log.h>
 
 #include <app/drivers/blink.h>
 
 #include <app_version.h>
 
-LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
+#include "pw_log/log.h"
 
 #define BLINK_PERIOD_MS_STEP 100U
 #define BLINK_PERIOD_MS_MAX  1000U
@@ -27,34 +26,34 @@ int main(void)
 
 	sensor = DEVICE_DT_GET(DT_NODELABEL(example_sensor));
 	if (!device_is_ready(sensor)) {
-		LOG_ERR("Sensor not ready");
+		PW_LOG_ERROR("Sensor not ready");
 		return 0;
 	}
 
 	blink = DEVICE_DT_GET(DT_NODELABEL(blink_led));
 	if (!device_is_ready(blink)) {
-		LOG_ERR("Blink LED not ready");
+		PW_LOG_ERROR("Blink LED not ready");
 		return 0;
 	}
 
 	ret = blink_off(blink);
 	if (ret < 0) {
-		LOG_ERR("Could not turn off LED (%d)", ret);
+		PW_LOG_ERROR("Could not turn off LED (%d)", ret);
 		return 0;
 	}
 
-	printk("Use the sensor to change LED blinking period\n");
+	PW_LOG_INFO("Use the sensor to change LED blinking period");
 
 	while (1) {
 		ret = sensor_sample_fetch(sensor);
 		if (ret < 0) {
-			LOG_ERR("Could not fetch sample (%d)", ret);
+			PW_LOG_ERROR("Could not fetch sample (%d)", ret);
 			return 0;
 		}
 
 		ret = sensor_channel_get(sensor, SENSOR_CHAN_PROX, &val);
 		if (ret < 0) {
-			LOG_ERR("Could not get sample (%d)", ret);
+			PW_LOG_ERROR("Could not get sample (%d)", ret);
 			return 0;
 		}
 
@@ -65,7 +64,7 @@ int main(void)
 				period_ms -= BLINK_PERIOD_MS_STEP;
 			}
 
-			printk("Proximity detected, setting LED period to %u ms\n",
+			PW_LOG_INFO("Proximity detected, setting LED period to %u ms",
 			       period_ms);
 			blink_set_period_ms(blink, period_ms);
 		}

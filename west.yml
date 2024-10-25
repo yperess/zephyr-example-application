@@ -8,8 +8,13 @@ manifest:
   remotes:
     - name: zephyrproject-rtos
       url-base: https://github.com/zephyrproject-rtos
+    - name: pigweed
+      url-base: https://pigweed.googlesource.com/pigweed
 
   projects:
+    - name: pigweed
+      remote: pigweed
+      revision: main
     - name: zephyr
       remote: zephyrproject-rtos
       revision: main

@@ -60,10 +60,21 @@ command:
 
 ```shell
 # initialize my-workspace for the example-application (main branch)
-west init -m https://github.com/zephyrproject-rtos/example-application --mr main my-workspace
+west init -m https://github.com/yperess/zephyr-example-application --mr main my-workspace
 # update Zephyr modules
 cd my-workspace
 west update
+source pigweed/bootstrap.sh
+pip install -r zephyr/scripts/requirements.txt
+```
+
+NOTE: Installing the pigweed pip package will show an error. From what I can tell, everything still
+works, you just need to run the command again if you see the error.
+
+You can re-enter the environment by running:
+
+```shell
+source pigweed/activate.sh
 ```
 
 ### Building and running

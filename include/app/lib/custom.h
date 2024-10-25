@@ -7,6 +7,10 @@
 #ifndef APP_LIB_CUSTOM_H_
 #define APP_LIB_CUSTOM_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @defgroup lib_custom Custom library
  * @ingroup lib
@@ -33,5 +37,9 @@
 int custom_get_value(int val);
 
 /** @} */
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* APP_LIB_CUSTOM_H_ */
